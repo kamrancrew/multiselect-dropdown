@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';
 
@@ -83,15 +85,15 @@ class _MyHomePageState extends State<MyHomePage> {
                   },
                   options: <ValueItem<User>>[
                     ValueItem(
-                        label: 'Option 1', value: User(name: 'User 1', id: 1)),
+                        label: 'Option 1', value: User(name: 'User 1', id: 1), id: 1),
                     ValueItem(
-                        label: 'Option 2', value: User(name: 'User 2', id: 2)),
+                        label: 'Option 2', value: User(name: 'User 2', id: 2), id: 2),
                     ValueItem(
-                        label: 'Option 3', value: User(name: 'User 3', id: 3)),
+                        label: 'Option 3', value: User(name: 'User 3', id: 3), id: 3),
                     ValueItem(
-                        label: 'Option 4', value: User(name: 'User 4', id: 4)),
+                        label: 'Option 4', value: User(name: 'User 4', id: 4), id: 4),
                     ValueItem(
-                        label: 'Option 5', value: User(name: 'User 5', id: 5)),
+                        label: 'Option 5', value: User(name: 'User 5', id: 5), id: 5),
                   ],
                   maxItems: 4,
                   selectionType: SelectionType.multi,
@@ -153,50 +155,53 @@ class _MyHomePageState extends State<MyHomePage> {
                 const SizedBox(
                   height: 12,
                 ),
-                Text(
-                  'Selected Options: $_selectedOptions',
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(
-                  height: 50,
-                ),
-                const Text('SCROLL', style: MyHomePage._headerStyle),
-                const SizedBox(
-                  height: 4,
-                ),
-                MultiSelectDropDown(
-                  onOptionSelected: (options) {
-                    debugPrint(options.toString());
-                  },
-                  options: const <ValueItem>[
-                    ValueItem(label: 'Option 1', value: '1'),
-                    ValueItem(label: 'Option 2', value: '2'),
-                    ValueItem(label: 'Option 3', value: '3'),
-                    ValueItem(label: 'Option 4', value: '4'),
-                    ValueItem(label: 'Option 5', value: '5'),
-                    ValueItem(label: 'Option 6', value: '6'),
-                  ],
-                  selectionType: SelectionType.multi,
-                  chipConfig: const ChipConfig(wrapType: WrapType.scroll),
-                  dropdownHeight: 400,
-                  optionTextStyle: const TextStyle(fontSize: 16),
-                  selectedOptionIcon: const Icon(Icons.check_circle),
-                ),
-                const SizedBox(
-                  height: 50,
-                ),
+                // Text(
+                //   'Selected Options: $_selectedOptions',
+                //   style: const TextStyle(
+                //     fontSize: 16,
+                //     fontWeight: FontWeight.bold,
+                //   ),
+                // ),
+                // const SizedBox(
+                //   height: 50,
+                // ),
+                // const Text('SCROLL', style: MyHomePage._headerStyle),
+                // const SizedBox(
+                //   height: 4,
+                // ),
+                // MultiSelectDropDown(
+                //   onOptionSelected: (options) {
+                //     debugPrint(options.toString());
+                //   },
+                //   options: const <ValueItem>[
+                //     ValueItem(label: 'Option 1', value: '1',id: 1),
+                //     ValueItem(label: 'Option 2', value: '2',id: 2),
+                //     ValueItem(label: 'Option 3', value: '3',id: 3),
+                //     ValueItem(label: 'Option 4', value: '4',id: 4),
+                //     ValueItem(label: 'Option 5', value: '5',id: 5),
+                //     ValueItem(label: 'Option 6', value: '6',id: 6),
+                //   ],
+                //   selectionType: SelectionType.multi,
+                //   chipConfig: const ChipConfig(wrapType: WrapType.scroll),
+                //   dropdownHeight: 400,
+                //   optionTextStyle: const TextStyle(fontSize: 16),
+                //   selectedOptionIcon: const Icon(Icons.check_circle),
+                // ),
+                // const SizedBox(
+                //   height: 50,
+                // ),
                 const Text('FROM NETWORK', style: MyHomePage._headerStyle),
                 const SizedBox(
                   height: 4,
                 ),
                 MultiSelectDropDown.network(
-                  dropdownHeight: 300,
+                  dropdownBorderRadius: 10,
+                  // dropdownHeight: 300,
                   onOptionSelected: (options) {
-                    debugPrint(options.toString());
+                    log('data is here ${options}');
                   },
+                  suffixIcon: Icon(Icons.add,size: 22,),
+                  borderRadius:100,
                   searchEnabled: true,
                   networkConfig: NetworkConfig(
                     url: 'https://jsonplaceholder.typicode.com/users',
@@ -205,13 +210,14 @@ class _MyHomePageState extends State<MyHomePage> {
                       'Content-Type': 'application/json',
                     },
                   ),
-                  chipConfig: const ChipConfig(wrapType: WrapType.wrap),
+                  chipConfig: const ChipConfig(wrapType: WrapType.scroll),
                   responseParser: (response) {
                     final list = (response as List<dynamic>).map((e) {
                       final item = e as Map<String, dynamic>;
                       return ValueItem(
                         label: item['name'],
                         value: item['id'].toString(),
+                        id: item['id']
                       );
                     }).toList();
 

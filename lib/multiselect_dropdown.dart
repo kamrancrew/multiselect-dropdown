@@ -68,7 +68,7 @@ class MultiSelectDropDown<T> extends StatefulWidget {
 
   // dropdownfield configuration
   final Color? fieldBackgroundColor;
-  final Icon? suffixIcon;
+  final Widget? suffixIcon;
   final Icon? clearIcon;
   final Decoration? inputDecoration;
   final double? borderRadius;
@@ -231,7 +231,7 @@ class MultiSelectDropDown<T> extends StatefulWidget {
       this.fieldBackgroundColor = Colors.white,
       this.dropdownHeight = 200,
       this.showChipInSingleSelectMode = false,
-      this.suffixIcon = const Icon(Icons.arrow_drop_down),
+      this.suffixIcon = const Icon(Icons.keyboard_arrow_down_rounded,size: 24,),
       this.clearIcon = const Icon(Icons.close_outlined, size: 20),
       this.selectedItemBuilder,
       this.optionSeparator,
@@ -876,69 +876,75 @@ class _MultiSelectDropDownState<T> extends State<MultiSelectDropDown<T>> {
     });
   }
 
-  ListTile _buildOption(
+   _buildOption(
       ValueItem<T> option,
       Color primaryColor,
       bool isSelected,
       StateSetter dropdownState,
       List<ValueItem<T>> selectedOptions) {
-    return ListTile(
-        title: Text(option.label,
-            style: widget.optionTextStyle ??
-                TextStyle(
-                  fontSize: widget.hintFontSize,
-                )),
-        textColor: Colors.black,
-        selectedColor: widget.selectedOptionTextColor ?? primaryColor,
-        selected: isSelected,
-        autofocus: true,
-        dense: true,
-        tileColor: widget.optionsBackgroundColor ?? Colors.white,
-        selectedTileColor:
-            widget.selectedOptionBackgroundColor ?? Colors.grey.shade200,
-        enabled: !_disabledOptions.contains(option),
-        onTap: () {
-          if (widget.selectionType == SelectionType.multi) {
-            if (isSelected) {
-              dropdownState(() {
-                selectedOptions.remove(option);
-              });
-              setState(() {
-                _selectedOptions.remove(option);
-              });
-            } else {
-              final bool hasReachMax = widget.maxItems == null
-                  ? false
-                  : (_selectedOptions.length + 1) > widget.maxItems!;
-              if (hasReachMax) return;
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(44),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 8.0,right: 8,top: 0,bottom: 0),
+        child: ListTile(
+          contentPadding: EdgeInsets.zero,
+            title: Text(option.label, style: widget.optionTextStyle ?? TextStyle(fontSize: widget.hintFontSize,)),
+            textColor: Colors.black,
+            selectedColor: widget.selectedOptionTextColor ?? primaryColor,
+            selected: isSelected,
+            autofocus: true,
+            dense: true,
+            tileColor: widget.optionsBackgroundColor ?? Colors.white,
+            selectedTileColor:
+                widget.selectedOptionBackgroundColor ?? Colors.grey.shade200,
+            enabled: !_disabledOptions.contains(option),
+            onTap: () {
+              if (widget.selectionType == SelectionType.multi) {
+                if (isSelected) {
+                  dropdownState(() {
+                    selectedOptions.remove(option);
+                  });
+                  setState(() {
+                    _selectedOptions.remove(option);
+                  });
+                } else {
+                  final bool hasReachMax = widget.maxItems == null
+                      ? false
+                      : (_selectedOptions.length + 1) > widget.maxItems!;
+                  if (hasReachMax) return;
 
-              dropdownState(() {
-                selectedOptions.add(option);
-              });
-              setState(() {
-                _selectedOptions.add(option);
-              });
-            }
-          } else {
-            dropdownState(() {
-              selectedOptions.clear();
-              selectedOptions.add(option);
-            });
-            setState(() {
-              _selectedOptions.clear();
-              _selectedOptions.add(option);
-            });
-            _focusNode.unfocus();
-          }
+                  dropdownState(() {
+                    selectedOptions.add(option);
+                  });
+                  setState(() {
+                    _selectedOptions.add(option);
+                  });
+                }
+              }
+              else {
+                dropdownState(() {
+                  selectedOptions.clear();
+                  selectedOptions.add(option);
+                });
+                setState(() {
+                  _selectedOptions.clear();
+                  _selectedOptions.add(option);
+                });
+                _focusNode.unfocus();
+              }
 
-          if (_controller != null) {
-            _controller!.value._selectedOptions.clear();
-            _controller!.value._selectedOptions.addAll(_selectedOptions);
-          }
+              if (_controller != null) {
+                _controller!.value._selectedOptions.clear();
+                _controller!.value._selectedOptions.addAll(_selectedOptions);
+              }
 
-          widget.onOptionSelected?.call(_selectedOptions);
-        },
-        trailing: _getSelectedIcon(isSelected, primaryColor));
+              widget.onOptionSelected?.call(_selectedOptions);
+            },
+            trailing: _getSelectedIcon(isSelected, primaryColor)),
+      ),
+    );
   }
 
   /// Make a request to the provided url.
@@ -1016,28 +1022,23 @@ class _MultiSelectDropDownState<T> extends State<MultiSelectDropDown<T>> {
                 color: Colors.transparent,
               ),
             )),
-            CompositedTransformFollower(
+            Container(
+              child: CompositedTransformFollower(
                 link: _layerLink,
                 targetAnchor:
-                    showOnTop ? Alignment.topLeft : Alignment.bottomLeft,
+                      showOnTop ? Alignment.topLeft : Alignment.bottomLeft,
                 followerAnchor:
-                    showOnTop ? Alignment.bottomLeft : Alignment.topLeft,
+                      showOnTop ? Alignment.bottomLeft : Alignment.topLeft,
                 offset: widget.dropdownMargin != null
-                    ? Offset(
-                        0,
-                        showOnTop
-                            ? -widget.dropdownMargin!
-                            : widget.dropdownMargin!)
-                    : Offset.zero,
-                child: Material(
-                    borderRadius: widget.dropdownBorderRadius != null
-                        ? BorderRadius.circular(widget.dropdownBorderRadius!)
-                        : null,
-                    elevation: 4,
-                    child: Container(
+                      ? Offset(
+                          0,
+                          showOnTop
+                              ? -widget.dropdownMargin!
+                              : widget.dropdownMargin!)
+                      : Offset.zero,
+                child: Container(
                         width: size.width,
-                        constraints: BoxConstraints.loose(
-                            Size(size.width, widget.dropdownHeight)),
+                        constraints: BoxConstraints.loose(Size(size.width, widget.dropdownHeight)),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -1050,7 +1051,10 @@ class _MultiSelectDropDownState<T> extends State<MultiSelectDropDown<T>> {
                                         'Error fetching data: $_reponseBody'),
                                   ),
                           ],
-                        ))))
+                        )
+                    ),
+              ),
+            )
           ],
         );
       }));

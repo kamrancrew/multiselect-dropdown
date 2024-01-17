@@ -11,16 +11,19 @@ class ValueItem<T> {
   /// The label of the value item
   final String label;
 
+  /// The id of the value item
+  final int? id;
+
   /// The value of the value item
   final T? value;
 
   /// Default constructor for [ValueItem]
-  const ValueItem({required this.label, required this.value});
+  const ValueItem({required this.label, required this.value,required this.id});
 
   /// toString method for [ValueItem]
   @override
   String toString() {
-    return 'ValueItem(label: $label, value: $value)';
+    return 'ValueItem(label: $label, value: $value , id: $id)';
   }
 
   /// toMap method for [ValueItem]
@@ -28,6 +31,7 @@ class ValueItem<T> {
     return {
       'label': label,
       'value': value,
+      'id': id,
     };
   }
 
@@ -36,6 +40,7 @@ class ValueItem<T> {
     return ValueItem<T>(
       label: map['label'] ?? '',
       value: map['value'],
+      id: map['id'],
     );
   }
 
@@ -51,9 +56,7 @@ class ValueItem<T> {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is ValueItem<T> &&
-        other.label == label &&
-        other.value == value;
+    return other is ValueItem<T> && other.label == label && other.value == value && other.id == id;
   }
 
   /// Hashcode for [ValueItem]
@@ -64,10 +67,12 @@ class ValueItem<T> {
   ValueItem<T> copyWith({
     String? label,
     T? value,
+    int? id,
   }) {
     return ValueItem<T>(
       label: label ?? this.label,
       value: value ?? this.value,
+      id: id ?? this.id,
     );
   }
 }
