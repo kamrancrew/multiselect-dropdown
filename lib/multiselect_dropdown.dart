@@ -798,8 +798,10 @@ class _MultiSelectDropDownState<T> extends State<MultiSelectDropDown<T>> {
                               controller: searchController,
                               onTapOutside: (_) {},
                               scrollPadding: EdgeInsets.only(
-                                  bottom:
-                                      MediaQuery.of(context).viewInsets.bottom),
+                                  bottom: MediaQuery.of(context).viewInsets.bottom,
+                                  left: 8,
+                                right: 8
+                              ),
                               focusNode: _searchFocusNode,
                               decoration: InputDecoration(
                                 fillColor: widget.searchBackgroundColor ??
@@ -822,7 +824,7 @@ class _MultiSelectDropDownState<T> extends State<MultiSelectDropDown<T>> {
                                   ),
                                 ),
                                 suffixIcon: IconButton(
-                                  icon: const Icon(Icons.close),
+                                  icon: const Icon(Icons.close,size: 24,),
                                   onPressed: () {
                                     searchController.clear();
                                     dropdownState(() {
@@ -1036,7 +1038,7 @@ class _MultiSelectDropDownState<T> extends State<MultiSelectDropDown<T>> {
                               ? -widget.dropdownMargin!
                               : widget.dropdownMargin!)
                       : Offset.zero,
-                child: Container(
+                child: SizedBox(
                         width: size.width,
                        // constraints: BoxConstraints.loose(Size(size.width, widget.dropdownHeight)),
                         child: Column(
