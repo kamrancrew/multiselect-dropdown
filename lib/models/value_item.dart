@@ -12,7 +12,7 @@ class ValueItem<T> {
   final String label;
 
   /// The id of the value item
-  final int? id;
+  final int id;
 
   /// The value of the value item
   final T? value;
