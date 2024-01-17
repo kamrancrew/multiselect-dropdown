@@ -1038,7 +1038,7 @@ class _MultiSelectDropDownState<T> extends State<MultiSelectDropDown<T>> {
                       : Offset.zero,
                 child: Container(
                         width: size.width,
-                        constraints: BoxConstraints.loose(Size(size.width, widget.dropdownHeight)),
+                       // constraints: BoxConstraints.loose(Size(size.width, widget.dropdownHeight)),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
