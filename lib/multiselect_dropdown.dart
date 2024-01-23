@@ -893,8 +893,7 @@ class _MultiSelectDropDownState<T> extends State<MultiSelectDropDown<T>> {
                               final option = options[index];
                               final isSelected =
                                   selectedOptions.contains(option);
-                              final primaryColor =
-                                  Theme.of(context).primaryColor;
+                              final primaryColor = Color(0xffCC5500);
 
                               return _buildOption(option, primaryColor,
                                   isSelected, dropdownState, selectedOptions);
