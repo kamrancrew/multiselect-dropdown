@@ -225,7 +225,7 @@ class MultiSelectDropDown<T> extends StatefulWidget {
       this.disabledOptions = const [],
       this.alwaysShowOptionIcon = false,
       this.optionTextStyle,
-      this.selectedOptionIcon = const Icon(Icons.check),
+      this.selectedOptionIcon,// = const Icon(Icons.check),
       this.selectedOptionBackgroundColor,
       this.optionsBackgroundColor,
       this.fieldBackgroundColor = Colors.white,
@@ -281,7 +281,7 @@ class MultiSelectDropDown<T> extends StatefulWidget {
       this.disabledOptions = const [],
       this.alwaysShowOptionIcon = false,
       this.optionTextStyle,
-      this.selectedOptionIcon = const Icon(Icons.check),
+      this.selectedOptionIcon,// = const Icon(Icons.check),
       this.selectedOptionBackgroundColor,
       this.optionsBackgroundColor,
       this.fieldBackgroundColor = Colors.white,
@@ -703,26 +703,58 @@ class _MultiSelectDropDownState<T> extends State<MultiSelectDropDown<T>> {
   }
 
   /// Get the selectedItem icon for the dropdown
+  // Widget? _getSelectedIcon(bool isSelected, Color primaryColor) {
+  //   if (isSelected) {
+  //     return widget.selectedOptionIcon ??
+  //         Icon(
+  //           Icons.add,
+  //           color: primaryColor,
+  //         );
+  //   }
+  //   if (!widget.alwaysShowOptionIcon) {
+  //     return null;
+  //   }
+  //
+  //   final Icon icon = widget.selectedOptionIcon ??
+  //       Icon(
+  //         Icons.create,
+  //         color: widget.optionTextStyle?.color ?? Colors.grey,
+  //       );
+  //
+  //   return icon;
+  // }
   Widget? _getSelectedIcon(bool isSelected, Color primaryColor) {
-    if (isSelected) {
-      return widget.selectedOptionIcon ??
-          Icon(
-            Icons.check,
-            color: primaryColor,
-          );
-    }
-    if (!widget.alwaysShowOptionIcon) {
-      return null;
-    }
+    // if (!widget.alwaysShowOptionIcon && !isSelected) {
+    //   return null;
+    // }
 
-    final Icon icon = widget.selectedOptionIcon ??
-        Icon(
-          Icons.check,
-          color: widget.optionTextStyle?.color ?? Colors.grey,
-        );
+    final BoxDecoration decoration = BoxDecoration(
+      borderRadius: BorderRadius.circular(8),
+      // shape: BoxShape.circle,
+      color: Colors.white,
+      border: Border.all(
+        color: isSelected ? primaryColor : const Color(0xff95B0B1),
+        width: 2.0,
+      ),
+    );
 
-    return icon;
+    final Icon? icon = isSelected
+        ? Icon(
+      Icons.check,
+      color: isSelected ? primaryColor : Colors.white,
+      size: 20,
+    )
+        : null;
+
+    return Container(
+      width: 24.0,
+      height: 24.0,
+      decoration: decoration,
+      child: Center(child: icon),
+    );
   }
+
+
 
   /// Create the overlay entry for the dropdown.
   OverlayEntry _buildOverlayEntry() {
@@ -900,8 +932,7 @@ class _MultiSelectDropDownState<T> extends State<MultiSelectDropDown<T>> {
             autofocus: true,
             dense: true,
             tileColor: widget.optionsBackgroundColor ?? Colors.white,
-            selectedTileColor:
-                widget.selectedOptionBackgroundColor ?? Colors.grey.shade200,
+            // selectedTileColor: widget.selectedOptionBackgroundColor ?? Colors.grey.shade200,
             enabled: !_disabledOptions.contains(option),
             onTap: () {
               if (widget.selectionType == SelectionType.multi) {

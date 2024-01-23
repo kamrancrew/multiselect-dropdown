@@ -78,7 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   height: 4,
                 ),
                 MultiSelectDropDown<User>(
-                  showClearIcon: true,
+                  showClearIcon: false,
                   controller: _controller,
                   onOptionSelected: (options) {
                     debugPrint(options.toString());
@@ -196,6 +196,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 MultiSelectDropDown.network(
                   dropdownBorderRadius: 10,
+                  showClearIcon: false,
                   // dropdownHeight: 300,
                   onOptionSelected: (options) {
                     log('data is here ${options}');
@@ -210,7 +211,14 @@ class _MyHomePageState extends State<MyHomePage> {
                       'Content-Type': 'application/json',
                     },
                   ),
-                  chipConfig: const ChipConfig(wrapType: WrapType.scroll),
+                  chipConfig: const ChipConfig(
+                      wrapType: WrapType.scroll, backgroundColor: Color(0xffF9EEE4),labelColor: Colors.red,deleteIcon: Icon(Icons.close,color: Colors.red,)),
+                  optionTextStyle: const TextStyle(fontSize: 16),
+                  // selectedOptionIcon: const Icon(
+                  //   Icons.check_circle,
+                  //   color: Colors.pink,
+                  // ),
+                  // chipConfig: const ChipConfig(wrapType: WrapType.scroll),
                   responseParser: (response) {
                     final list = (response as List<dynamic>).map((e) {
                       final item = e as Map<String, dynamic>;
